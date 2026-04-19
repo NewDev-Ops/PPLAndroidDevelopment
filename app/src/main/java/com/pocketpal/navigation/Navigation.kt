@@ -8,7 +8,11 @@ import androidx.compose.material.icons.filled.PieChart
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -17,7 +21,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.pocketpal.ui.components.AddTransactionSheet
+import com.pocketpal.ui.screens.home.AddTransactionState
+import com.pocketpal.ui.screens.home.AddTransactionViewModel
 import com.pocketpal.ui.screens.home.HomeScreen
+import com.pocketpal.ui.screens.home.HomeViewModel
 import com.pocketpal.ui.screens.analytics.AnalyticsScreen
 import com.pocketpal.ui.screens.settings.SettingsScreen
 
@@ -35,10 +43,19 @@ val bottomNavItems = listOf(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PocketPalNavHost() {
+fun PocketPalNavHost(
+    addTransactionViewModel: AddTransactionViewModel,
+    homeViewModel: HomeViewModel
+) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
+    
+    val state by addTransactionViewModel.state.collectAsState()
+    val expenseCategories by addTransactionViewModel.categories.collectAsState()
+    val incomeCategories by addTransactionViewModel.incomeCategories.collectAsState()
+    
+    var showAddSheet by remember { mutableStateOf(false) }
     
     Scaffold(
         bottomBar = {
@@ -63,7 +80,7 @@ fun PocketPalNavHost() {
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { /* Navigate to add transaction */ },
+                onClick = { showAddSheet = true },
                 containerColor = MaterialTheme.colorScheme.primary
             ) {
                 Icon(
@@ -80,7 +97,7 @@ fun PocketPalNavHost() {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(Screen.Home.route) {
-                HomeScreen()
+                HomeScreen(viewModel = homeViewModel, transactionViewModel = addTransactionViewModel)
             }
             composable(Screen.Analytics.route) {
                 AnalyticsScreen()
@@ -90,4 +107,27 @@ fun PocketPalNavHost() {
             }
         }
     }
+    
+    // Add Transaction Bottom Sheet
+    AddTransactionSheet(
+        isVisible = showAddSheet,
+        onDismiss = {
+            showAddSheet = false
+            addTransactionViewModel.resetState()
+        },
+        state = addTransactionState,
+        expenseCategories = expenseCategories,
+        incomeCategories = incomeCategories,
+        onAmountChange = addTransactionViewModel::updateAmount,
+        onCategoryChange = addTransactionViewModel::updateCategory,
+        onTypeChange = addTransactionViewModel::updateType,
+        onNoteChange = addTransactionViewModel::updateNote,
+        onDateChange = addTransactionViewModel::updateDate,
+        onSave = {
+            addTransactionViewModel.saveTransaction {
+                showAddSheet = false
+                addTransactionViewModel.resetState()
+            }
+        }
+    )
 }
