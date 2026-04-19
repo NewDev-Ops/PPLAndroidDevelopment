@@ -41,7 +41,6 @@ fun HomeScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         contentPadding = PaddingValues(vertical = 16.dp)
     ) {
-        // Header
         item {
             Text(
                 text = "Dashboard",
@@ -55,7 +54,6 @@ fun HomeScreen(
             )
         }
 
-        // Summary Cards
         item {
             SummaryCard(
                 totalBalance = state.totalBalance,
@@ -65,7 +63,6 @@ fun HomeScreen(
             )
         }
 
-        // Recent Transactions Header
         item {
             Text(
                 text = "Recent Transactions",
@@ -74,7 +71,6 @@ fun HomeScreen(
             )
         }
 
-        // Transaction Groups
         if (state.transactionGroups.isEmpty() && !state.isLoading) {
             item {
                 EmptyTransactionsCard()
@@ -103,7 +99,6 @@ fun HomeScreen(
             }
         }
 
-        // Loading state
         if (state.isLoading) {
             item {
                 Box(
@@ -131,9 +126,7 @@ private fun SummaryCard(
         ),
         shape = RoundedCornerShape(20.dp)
     ) {
-        Column(
-            modifier = Modifier.padding(20.dp)
-        ) {
+        Column(modifier = Modifier.padding(20.dp)) {
             Text(
                 text = "Total Balance",
                 style = MaterialTheme.typography.labelLarge,
@@ -153,7 +146,6 @@ private fun SummaryCard(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                // Income
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Box(
                         modifier = Modifier
@@ -185,7 +177,6 @@ private fun SummaryCard(
                     }
                 }
 
-                // Expense
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Box(
                         modifier = Modifier
@@ -237,7 +228,7 @@ private fun DateHeader(
             when (localDate) {
                 today -> "Today"
                 yesterday -> "Yesterday"
-                else -> localDate.format(java.time.format.DateTimeFormatter.ofPattern("EEEE, MMM d"))
+                else -> localDate.format(DateTimeFormatter.ofPattern("EEEE, MMM d"))
             }
         } catch (e: Exception) {
             date
@@ -291,7 +282,6 @@ private fun TransactionItem(
                 .padding(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Icon
             Box(
                 modifier = Modifier
                     .size(44.dp)
@@ -311,7 +301,6 @@ private fun TransactionItem(
 
             Spacer(modifier = Modifier.width(12.dp))
 
-            // Details
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = transaction.category,
@@ -328,7 +317,6 @@ private fun TransactionItem(
                 }
             }
 
-            // Amount
             Column(horizontalAlignment = Alignment.End) {
                 Text(
                     text = "${if (isIncome) "+" else "-"}${currencyFormat.format(transaction.amount)}",
@@ -343,7 +331,6 @@ private fun TransactionItem(
                 )
             }
 
-            // Delete button
             IconButton(onClick = { showDeleteDialog = true }) {
                 Icon(
                     imageVector = Icons.Default.Delete,
@@ -355,7 +342,6 @@ private fun TransactionItem(
         }
     }
 
-    // Delete Confirmation Dialog
     if (showDeleteDialog) {
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
@@ -404,14 +390,8 @@ private fun EmptyTransactionsCard() {
                 text = "Tap the + button to add your first transaction",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-textAlign = TextAlign.Center
-        )
+                textAlign = TextAlign.Center
+            )
+        }
     }
-}
-}
-    }
-}
-
-private fun LocalDate.Companion.parse(date: String): LocalDate {
-    return java.time.LocalDate.parse(date)
 }

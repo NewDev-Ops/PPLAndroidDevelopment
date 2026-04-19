@@ -115,7 +115,7 @@ fun PocketPalNavHost(
             showAddSheet = false
             addTransactionViewModel.resetState()
         },
-        state = addTransactionState,
+        state = state,
         expenseCategories = expenseCategories,
         incomeCategories = incomeCategories,
         onAmountChange = addTransactionViewModel::updateAmount,
