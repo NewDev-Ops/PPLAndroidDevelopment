@@ -27,6 +27,9 @@ interface TransactionDao {
     @Query("SELECT * FROM transactions WHERE date BETWEEN :startDate AND :endDate ORDER BY date DESC")
     fun getTransactionsBetweenDates(startDate: String, endDate: String): Flow<List<TransactionEntity>>
     
+    @Query("SELECT * FROM transactions WHERE type = 'EXPENSE' AND date BETWEEN :startDate AND :endDate ORDER BY date DESC")
+    fun getExpensesBetweenDates(startDate: String, endDate: String): Flow<List<TransactionEntity>>
+    
     @Query("SELECT SUM(amount) FROM transactions WHERE type = 'EXPENSE' AND category = :category AND date BETWEEN :startDate AND :endDate")
     fun getTotalExpensesByCategory(category: String, startDate: String, endDate: String): Flow<Double?>
     

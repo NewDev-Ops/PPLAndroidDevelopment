@@ -27,6 +27,7 @@ import com.pocketpal.ui.screens.home.AddTransactionViewModel
 import com.pocketpal.ui.screens.home.HomeScreen
 import com.pocketpal.ui.screens.home.HomeViewModel
 import com.pocketpal.ui.screens.analytics.AnalyticsScreen
+import com.pocketpal.ui.screens.analytics.AnalyticsViewModel
 import com.pocketpal.ui.screens.settings.SettingsScreen
 
 sealed class Screen(val route: String, val title: String, val icon: ImageVector) {
@@ -45,7 +46,8 @@ val bottomNavItems = listOf(
 @Composable
 fun PocketPalNavHost(
     addTransactionViewModel: AddTransactionViewModel,
-    homeViewModel: HomeViewModel
+    homeViewModel: HomeViewModel,
+    analyticsViewModel: AnalyticsViewModel
 ) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()

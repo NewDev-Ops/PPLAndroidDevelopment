@@ -28,6 +28,9 @@ class TransactionRepository(private val database: PocketPalDatabase) {
     fun getTransactionsBetweenDates(startDate: String, endDate: String): Flow<List<TransactionEntity>> = 
         dao.getTransactionsBetweenDates(startDate, endDate)
     
+    fun getExpensesBetweenDates(startDate: String, endDate: String): Flow<List<TransactionEntity>> = 
+        dao.getExpensesBetweenDates(startDate, endDate)
+    
     fun getTotalExpenses(startDate: String, endDate: String): Flow<Double?> = 
         dao.getTotalExpenses(startDate, endDate)
     
