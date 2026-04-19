@@ -185,26 +185,27 @@ private fun SpendingPieChart(
             // Legend
             if (categorySpending.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(16.dp))
-                FlowRow(
+                Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center,
-                    items = categorySpending.take(5)
-                ) { category ->
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .size(12.dp)
-                                .clip(CircleShape)
-                                .background(Color(android.graphics.Color.parseColor(category.color)))
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text(
-                            text = category.categoryName,
-                            style = MaterialTheme.typography.labelSmall
-                        )
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    categorySpending.take(5).forEach { category ->
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(12.dp)
+                                    .clip(CircleShape)
+                                    .background(Color(android.graphics.Color.parseColor(category.color)))
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(
+                                text = category.categoryName,
+                                style = MaterialTheme.typography.labelSmall
+                            )
+                        }
                     }
                 }
             }
@@ -289,7 +290,7 @@ private fun CategorySpendingItem(
                     .fillMaxHeight()
                     .fillMaxWidth(category.percentage)
                     .background(Color(android.graphics.Color.parseColor(category.color)))
-            }
+            )
         }
     }
 }

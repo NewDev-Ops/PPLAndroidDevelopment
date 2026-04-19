@@ -102,7 +102,7 @@ fun PocketPalNavHost(
                 HomeScreen(viewModel = homeViewModel, transactionViewModel = addTransactionViewModel)
             }
             composable(Screen.Analytics.route) {
-                AnalyticsScreen()
+                AnalyticsScreen(viewModel = analyticsViewModel)
             }
             composable(Screen.Settings.route) {
                 SettingsScreen()

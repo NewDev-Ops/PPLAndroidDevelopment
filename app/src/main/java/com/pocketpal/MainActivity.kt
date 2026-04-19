@@ -10,6 +10,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.pocketpal.navigation.PocketPalNavHost
+import com.pocketpal.ui.screens.analytics.AnalyticsViewModel
 import com.pocketpal.ui.screens.home.AddTransactionViewModel
 import com.pocketpal.ui.screens.home.HomeViewModel
 import com.pocketpal.ui.theme.PocketPalTheme
@@ -29,9 +30,11 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val homeViewModel: HomeViewModel = hiltViewModel()
                     val addTransactionViewModel: AddTransactionViewModel = hiltViewModel()
+                    val analyticsViewModel: AnalyticsViewModel = hiltViewModel()
                     PocketPalNavHost(
                         addTransactionViewModel = addTransactionViewModel,
-                        homeViewModel = homeViewModel
+                        homeViewModel = homeViewModel,
+                        analyticsViewModel = analyticsViewModel
                     )
                 }
             }
