@@ -29,6 +29,7 @@ import com.pocketpal.ui.screens.home.HomeViewModel
 import com.pocketpal.ui.screens.analytics.AnalyticsScreen
 import com.pocketpal.ui.screens.analytics.AnalyticsViewModel
 import com.pocketpal.ui.screens.settings.SettingsScreen
+import com.pocketpal.ui.screens.settings.SettingsViewModel
 
 sealed class Screen(val route: String, val title: String, val icon: ImageVector) {
     data object Home : Screen("home", "Home", Icons.Default.Home)
@@ -47,7 +48,9 @@ val bottomNavItems = listOf(
 fun PocketPalNavHost(
     addTransactionViewModel: AddTransactionViewModel,
     homeViewModel: HomeViewModel,
-    analyticsViewModel: AnalyticsViewModel
+    analyticsViewModel: AnalyticsViewModel,
+    settingsViewModel: SettingsViewModel,
+    onDarkModeChange: (Boolean) -> Unit
 ) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -105,7 +108,7 @@ fun PocketPalNavHost(
                 AnalyticsScreen(viewModel = analyticsViewModel)
             }
             composable(Screen.Settings.route) {
-                SettingsScreen()
+                SettingsScreen(viewModel = settingsViewModel, onDarkModeChange = onDarkModeChange)
             }
         }
     }
