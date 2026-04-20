@@ -1,6 +1,7 @@
 package com.pocketpal.di
 
 import android.content.Context
+import com.pocketpal.data.PreferencesManager
 import com.pocketpal.data.local.AccountDao
 import com.pocketpal.data.local.CategoryDao
 import com.pocketpal.data.local.PocketPalDatabase
@@ -18,6 +19,14 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
+
+    @Provides
+    @Singleton
+    fun providePreferencesManager(
+        @ApplicationContext context: Context
+    ): PreferencesManager {
+        return PreferencesManager(context)
+    }
 
     @Provides
     @Singleton

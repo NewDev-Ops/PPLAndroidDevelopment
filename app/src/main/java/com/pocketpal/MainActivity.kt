@@ -14,6 +14,8 @@ import com.pocketpal.navigation.PocketPalNavHost
 import com.pocketpal.ui.screens.analytics.AnalyticsViewModel
 import com.pocketpal.ui.screens.home.AddTransactionViewModel
 import com.pocketpal.ui.screens.home.HomeViewModel
+import com.pocketpal.ui.screens.onboarding.OnboardingCheckViewModel
+import com.pocketpal.ui.screens.onboarding.OnboardingViewModel
 import com.pocketpal.ui.screens.settings.SettingsViewModel
 import com.pocketpal.ui.theme.PocketPalTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,12 +38,16 @@ class MainActivity : ComponentActivity() {
                     val addTransactionViewModel: AddTransactionViewModel = hiltViewModel()
                     val analyticsViewModel: AnalyticsViewModel = hiltViewModel()
                     val settingsViewModel: SettingsViewModel = hiltViewModel()
+                    val onboardingCheckViewModel: OnboardingCheckViewModel = hiltViewModel()
+                    val onboardingViewModel: OnboardingViewModel = hiltViewModel()
                     
                     PocketPalNavHost(
                         addTransactionViewModel = addTransactionViewModel,
                         homeViewModel = homeViewModel,
                         analyticsViewModel = analyticsViewModel,
                         settingsViewModel = settingsViewModel,
+                        onboardingCheckViewModel = onboardingCheckViewModel,
+                        onboardingViewModel = onboardingViewModel,
                         onDarkModeChange = { isDarkMode = it }
                     )
                 }
