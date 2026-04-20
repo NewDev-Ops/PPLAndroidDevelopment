@@ -119,6 +119,7 @@ private fun MainContent(
     val state by addTransactionViewModel.state.collectAsState()
     val expenseCategories by addTransactionViewModel.categories.collectAsState()
     val incomeCategories by addTransactionViewModel.incomeCategories.collectAsState()
+    val accounts by addTransactionViewModel.accounts.collectAsState()
     
     var showAddSheet by remember { mutableStateOf(false) }
     
@@ -183,11 +184,13 @@ private fun MainContent(
         state = state,
         expenseCategories = expenseCategories,
         incomeCategories = incomeCategories,
+        accounts = accounts,
         onAmountChange = addTransactionViewModel::updateAmount,
         onCategoryChange = addTransactionViewModel::updateCategory,
         onTypeChange = addTransactionViewModel::updateType,
         onNoteChange = addTransactionViewModel::updateNote,
         onDateChange = addTransactionViewModel::updateDate,
+        onAccountChange = addTransactionViewModel::updateAccountId,
         onSave = {
             addTransactionViewModel.saveTransaction {
                 showAddSheet = false

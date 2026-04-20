@@ -5,8 +5,6 @@ import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -16,71 +14,112 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-// PocketPal Brand Colors
-val Rose500 = Color(0xFFFF5A5F)
-val Rose400 = Color(0xFFFF7A7F)
-val Rose600 = Color(0xFFE5454F)
-
-// Light Theme Colors
-val LightBackground = Color(0xFFFAFAFA)
-val LightSurface = Color(0xFFFFFFFF)
-val LightOnSurface = Color(0xFF1C1B1F)
-val LightSurfaceVariant = Color(0xFFF5F5F5)
-
-// Dark Theme Colors  
-val DarkBackground = Color(0xFF1C1B1F)
-val DarkSurface = Color(0xFF2B2B2B)
-val DarkOnSurface = Color(0xFFE6E1E5)
-val DarkSurfaceVariant = Color(0xFF49454F)
-
 private val LightColorScheme = lightColorScheme(
-    primary = Rose500,
+    // Primary
+    primary = Rose40,
     onPrimary = Color.White,
-    primaryContainer = Rose400,
-    onPrimaryContainer = Color.White,
-    secondary = Color(0xFF3B82F6),
+    primaryContainer = Rose90,
+    onPrimaryContainer = Rose10,
+    
+    // Secondary
+    secondary = Teal40,
     onSecondary = Color.White,
-    tertiary = Color(0xFF10B981),
+    secondaryContainer = Teal90,
+    onSecondaryContainer = Teal10,
+    
+    // Tertiary
+    tertiary = Amber40,
     onTertiary = Color.White,
-    background = LightBackground,
-    onBackground = LightOnSurface,
-    surface = LightSurface,
-    onSurface = LightOnSurface,
-    surfaceVariant = LightSurfaceVariant,
-    onSurfaceVariant = Color(0xFF49454F)
+    tertiaryContainer = Amber90,
+    onTertiaryContainer = Amber10,
+    
+    // Error
+    error = Error40,
+    onError = Color.White,
+    errorContainer = Error90,
+    onErrorContainer = Error10,
+    
+    // Background & Surface
+    background = Neutral99,
+    onBackground = Neutral10,
+    surface = Neutral99,
+    onSurface = Neutral10,
+    surfaceVariant = Neutral90,
+    onSurfaceVariant = Neutral30,
+    
+    // Surface containers (M3 Expressive)
+    surfaceContainerLowest = SurfaceContainerLowest,
+    surfaceContainerLow = SurfaceContainerLow,
+    surfaceContainer = SurfaceContainer,
+    surfaceContainerHigh = SurfaceContainerHigh,
+    surfaceContainerHighest = SurfaceContainerHighest,
+    
+    // Outline
+    outline = Neutral40,
+    outlineVariant = Neutral80,
+    
+    // Inverse
+    inverseSurface = Neutral20,
+    inverseOnSurface = Neutral90,
+    inversePrimary = Rose80
 )
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Rose500,
-    onPrimary = Color.White,
-    primaryContainer = Rose600,
-    onPrimaryContainer = Color.White,
-    secondary = Color(0xFF60A5FA),
-    onSecondary = Color.White,
-    tertiary = Color(0xFF34D399),
-    onTertiary = Color.White,
-    background = DarkBackground,
-    onBackground = DarkOnSurface,
-    surface = DarkSurface,
-    onSurface = DarkOnSurface,
-    surfaceVariant = DarkSurfaceVariant,
-    onSurfaceVariant = Color(0xFFCAC4D0)
+    // Primary
+    primary = Rose80,
+    onPrimary = Rose20,
+    primaryContainer = Rose30,
+    onPrimaryContainer = Rose95,
+    
+    // Secondary
+    secondary = Teal80,
+    onSecondary = Teal20,
+    secondaryContainer = Teal30,
+    onSecondaryContainer = Teal95,
+    
+    // Tertiary
+    tertiary = Amber80,
+    onTertiary = Amber20,
+    tertiaryContainer = Amber30,
+    onTertiaryContainer = Amber95,
+    
+    // Error
+    error = Error80,
+    onError = Error20,
+    errorContainer = Error30,
+    onErrorContainer = Error90,
+    
+    // Background & Surface
+    background = Neutral10,
+    onBackground = Neutral90,
+    surface = Neutral10,
+    onSurface = Neutral90,
+    surfaceVariant = Neutral30,
+    onSurfaceVariant = Neutral80,
+    
+    // Surface containers (M3 Expressive)
+    surfaceContainerLowest = SurfaceContainerLowestDark,
+    surfaceContainerLow = SurfaceContainerLowDark,
+    surfaceContainer = SurfaceContainerDark,
+    surfaceContainerHigh = SurfaceContainerHighDark,
+    surfaceContainerHighest = SurfaceContainerHighestDark,
+    
+    // Outline
+    outline = Neutral60,
+    outlineVariant = Neutral30,
+    
+    // Inverse
+    inverseSurface = Neutral90,
+    inverseOnSurface = Neutral20,
+    inversePrimary = Rose40
 )
 
 @Composable
 fun PocketPalTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
+    val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
     
     val view = LocalView.current
     if (!view.isInEditMode) {
@@ -95,7 +134,8 @@ fun PocketPalTheme(
     
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = PocketPalTypography,
+        shapes = PocketPalShapes,
         content = content
     )
 }

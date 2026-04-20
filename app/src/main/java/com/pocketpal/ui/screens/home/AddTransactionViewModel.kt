@@ -2,7 +2,9 @@ package com.pocketpal.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pocketpal.data.local.AccountEntity
 import com.pocketpal.data.local.CategoryEntity
+import com.pocketpal.data.repository.AccountRepository
 import com.pocketpal.data.repository.CategoryRepository
 import com.pocketpal.data.repository.TransactionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,7 +33,8 @@ data class AddTransactionState(
 @HiltViewModel
 class AddTransactionViewModel @Inject constructor(
     private val transactionRepository: TransactionRepository,
-    private val categoryRepository: CategoryRepository
+    private val categoryRepository: CategoryRepository,
+    private val accountRepository: AccountRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(AddTransactionState())
@@ -43,6 +46,10 @@ class AddTransactionViewModel @Inject constructor(
 
     val incomeCategories: StateFlow<List<CategoryEntity>> = categoryRepository
         .getCategoriesByType("INCOME")
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    val accounts: StateFlow<List<AccountEntity>> = accountRepository
+        .getAllAccounts()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     fun updateAmount(value: String) {
